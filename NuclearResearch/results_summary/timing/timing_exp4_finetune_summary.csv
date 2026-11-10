@@ -1,0 +1,7 @@
+model,pred_len,total_seconds,total_human,status,notes
+Chronos2_multivar,3,1644,27m24s,OK,8000 steps
+Chronos2_multivar,30,1689,28m9s,OK,8000 steps
+Chronos2_multivar,60,1593,26m33s,OK,8000 steps
+ChronosBolt_univar,3,5042,84m2s,OK,early stop epoch 17/40
+ChronosBolt_univar,30,4883,81m23s,OK,early stop epoch 18/40
+ChronosBolt_univar,60,9598,159m58s,OK,all 40 epochs

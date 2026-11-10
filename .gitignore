@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+.pytest_cache/
+
+# Editors / OS
+.idea/
+.vscode/
+.DS_Store
+
+# Data (see README: download NPPAD, then build the experiment datasets)
+/dataset/
+/NuclearResearch/Raw_data/
+
+# Run outputs
+/checkpoints/
+/checkpoints_foundation/
+/results/
+/test_results/
+/result_long_term_forecast.txt
+/result_zero_shot_forecast_search.txt
+/NuclearResearch/logs/
+/NuclearResearch/results/
+/NuclearResearch/results_summary/analysis_output/*
+!/NuclearResearch/results_summary/analysis_output/uncertainty/
+/NuclearResearch/results_summary/analysis_output/uncertainty/*
+!/NuclearResearch/results_summary/analysis_output/uncertainty/*.csv

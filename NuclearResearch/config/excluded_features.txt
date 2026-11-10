@@ -1,0 +1,29 @@
+# Feature Exclusion Configuration for LOCA Forecasting
+# Features listed here will be excluded from training/testing/validation
+# to prevent data contamination and ensure scientifically valid results
+ 
+# Fuel temperatures (physically correlated with target TPCT)
+TF
+TFPK
+TFSB
+ 
+# Severe accident simulation parameters (not measurable by operators)
+MH2
+FRZR
+MDBR
+MCRT
+MGAS
+TDBR
+TSLP
+TCRT
+PWR
+WFLB
+VOID
+HUP
+HLW
+WTRA
+WTRB
+DNBR
+WBK
+FRCL
+EBK
