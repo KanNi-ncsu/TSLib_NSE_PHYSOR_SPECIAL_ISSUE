@@ -299,14 +299,14 @@ class TimingPlots:
             marker = family_markers.get(family, 'o')
             color = config.FAMILY_COLORS.get(family, '#999999')
 
-            ax.scatter(fam_df['single_fwd_mean_ms'], fam_df['avg_mae'],
+            ax.scatter(fam_df['single_fwd_mean_ms'], fam_df['mae'],
                        marker=marker, c=color, s=100, label=family,
                        edgecolors='black', linewidth=0.5, zorder=3)
 
         # Draw Pareto front
         pareto_df = df[df['pareto_optimal']].sort_values('single_fwd_mean_ms')
         if len(pareto_df) > 1:
-            ax.plot(pareto_df['single_fwd_mean_ms'], pareto_df['avg_mae'],
+            ax.plot(pareto_df['single_fwd_mean_ms'], pareto_df['mae'],
                     'k--', linewidth=1, alpha=0.5, zorder=2,
                     label='Pareto front')
 
@@ -315,7 +315,7 @@ class TimingPlots:
             fontweight = 'bold' if row.get('pareto_optimal', False) else 'normal'
             ax.annotate(
                 row['model'],
-                (row['single_fwd_mean_ms'], row['avg_mae']),
+                (row['single_fwd_mean_ms'], row['mae']),
                 textcoords='offset points',
                 xytext=(6, 4),
                 fontsize=7,
@@ -325,7 +325,7 @@ class TimingPlots:
 
         ax.set_xscale('log')
         ax.set_xlabel('Inference Time per Sample (ms, log scale)')
-        ax.set_ylabel(f'Average MAE (K) across experiments')
+        ax.set_ylabel('MAE in Experiment 4 (K)')
         ax.set_title(f'Inference Efficiency: Speed vs Accuracy ({horizon} horizon)')
         ax.legend(fontsize=9, loc='upper right')
         ax.grid(True, alpha=0.3)

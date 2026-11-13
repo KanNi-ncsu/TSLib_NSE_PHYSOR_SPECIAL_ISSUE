@@ -208,7 +208,7 @@ class TimingAnalyzer:
         return result.reset_index(drop=True)
 
     def _compute_efficiency(self) -> pd.DataFrame:
-        """Cross-reference inference time with MAE for Pareto analysis."""
+        """Cross-reference inference time with Experiment 4 MAE for Pareto analysis."""
         if self.metrics_df is None or len(self.inference_df) == 0:
             return pd.DataFrame()
 
@@ -218,14 +218,15 @@ class TimingAnalyzer:
         standard_horizons = set(config.HORIZON_ORDER)
         inf_df = inf_df[inf_df['horizon'].isin(standard_horizons)]
 
-        # Average MAE across experiments per (model, horizon)
-        mae_avg = self.metrics_df.groupby(['model', 'horizon']).agg(
-            avg_mae=('mae', 'mean'),
-            avg_rmse=('rmse', 'mean'),
+        # Experiment 4 MAE per (model, horizon)
+        exp4 = self.metrics_df[self.metrics_df['experiment'] == 'exp4']
+        mae_exp4 = exp4.groupby(['model', 'horizon']).agg(
+            mae=('mae', 'mean'),
+            rmse=('rmse', 'mean'),
         ).reset_index()
 
         # Merge
-        merged = inf_df.merge(mae_avg, on=['model', 'horizon'], how='inner')
+        merged = inf_df.merge(mae_exp4, on=['model', 'horizon'], how='inner')
 
         if len(merged) == 0:
             print("  WARNING: No matching models between inference and metrics data")
@@ -237,16 +238,16 @@ class TimingAnalyzer:
             mask = merged['horizon'] == hz
             hz_df = merged[mask]
             pareto = self._compute_pareto_front(
-                hz_df, 'single_fwd_mean_ms', 'avg_mae')
+                hz_df, 'single_fwd_mean_ms', 'mae')
             merged.loc[mask, 'pareto_optimal'] = pareto.values
 
         result_cols = ['model', 'family', 'horizon', 'n_params',
                        'single_fwd_mean_ms', 'single_fwd_std_ms',
-                       'speedup_vs_realtime', 'avg_mae', 'avg_rmse',
+                       'speedup_vs_realtime', 'mae', 'rmse',
                        'pareto_optimal']
         available = [c for c in result_cols if c in merged.columns]
         result = merged[available].sort_values(
-            ['horizon', 'avg_mae'], ascending=[True, True])
+            ['horizon', 'mae'], ascending=[True, True])
         return result.reset_index(drop=True)
 
     @staticmethod
